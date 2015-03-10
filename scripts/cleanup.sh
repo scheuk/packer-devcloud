@@ -15,7 +15,7 @@ echo -n '' > /etc/udev/rules.d/70-persistent-net.rules
 rm -f /etc/ssh/ssh_*_key
 rm -rf /var/lib/cloud
 rm -rf /tmp/*
-userdel -fr cloud-user
+rm -rf /home/cloud-user/.ssh
 
 rm -rf \
   /etc/Pegasus/*.cnf \

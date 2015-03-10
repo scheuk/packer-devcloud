@@ -1,5 +1,32 @@
 {
   "builders": [{
-    
+    "type": "openstack",
+    "ssh_username": "cloud-user",
+    "image_name": "devcloud-packer-{{timestamp}}",
+    "source_image": "ea29390f-aeda-4700-a5bc-76886b1cf433",
+    "flavor": "2",
+    "use_floating_ip": true,
+    "floating_ip": "172.28.118.21",
+    "floating_ip_pool": "athena_internal_net",
+    "networks": [
+      "50392815-2a93-42fc-b17a-5bce843cc293"
+    ]
+  }],
+  "provisioners": [{
+    "type": "puppet-server",
+    "options": "--test",
+    "puppet_node": "packer.devcloud.athenahealth.com",
+    "puppet_server": "puppet10vip.athenahealth.com",
+    "facter": {
+      "athena_server_role": "devcloud"
+    }
+  },
+  {
+    "type": "shell",
+    "scripts": [
+      "scripts/cloud-init-conf.sh",
+      "scripts/cleanup.sh"
+    ],
+    "execute_command": "sudo sh '{{.Path}}'"
   }]
 }

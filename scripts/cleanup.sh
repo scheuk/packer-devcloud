@@ -1,12 +1,12 @@
 rm -rf /var/spool/abrt/*
 unset HISTFILE
 
-rm -f /root/.bash_history /home/*/.bash_history
+rm -f /root/.bash_history /home_local/*/.bash_history
 rm -f /var/lib/dhclient/*
 rm -f /etc/sysconfig/iptables
 service iptables restart
 rm -rf /var/cache/yum/*
-rm -rf /root/.ssh/ /home/*/.ssh/
+rm -rf /root/.ssh/ /home_local/*/.ssh/
 find /var/lib/puppet/ssl -type f -execdir rm -f {} \;
 
 echo -n '' > /etc/udev/rules.d/75-persistent-net-generator.rules
@@ -15,7 +15,7 @@ echo -n '' > /etc/udev/rules.d/70-persistent-net.rules
 rm -f /etc/ssh/ssh_*_key
 rm -rf /var/lib/cloud
 rm -rf /tmp/*
-rm -rf /home/cloud-user/.ssh
+rm -rf /home_local/cloud-user/.ssh
 
 rm -rf \
   /etc/Pegasus/*.cnf \

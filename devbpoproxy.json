@@ -18,7 +18,7 @@
     "puppet_node": "packer{{timestamp}}.devcloud.athenahealth.com",
     "puppet_server": "puppet10vip.athenahealth.com",
     "facter": {
-      "athena_server_role": "devcloud"
+      "athena_server_role": "devbpoproxy"
     }
   },
   {
@@ -29,8 +29,7 @@
     ],
     "execute_command": "sudo -E {{ .Vars }} sh '{{.Path}}'",
     "environment_vars": [
-      "RSYNC=true",
-      "ROLE=devcloud"
+      "ROLE=devbpoproxy"
     ]
   }]
 }

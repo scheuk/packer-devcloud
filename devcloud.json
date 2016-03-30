@@ -3,34 +3,54 @@
     "type": "openstack",
     "ssh_username": "cloud-user",
     "image_name": "devcloud-packer-{{timestamp}}",
-    "source_image": "e0f5a947-db52-4c04-831e-b49d6bc03503",
-    "flavor": "2",
+    "source_image_name": "OracleLinux-6.7-athena-20160318",
+    "flavor": "m1.small",
     "use_floating_ip": true,
-    "floating_ip": "172.28.118.21",
+    "floating_ip": "172.28.120.103",
     "floating_ip_pool": "athena_internal_net",
     "networks": [
-      "591f1370-b4b5-41bb-9b49-022bf3c9f3fa"
+      "63fe7754-7850-4645-b3ed-08c5027df91a"
     ]
   }],
-  "provisioners": [{
+  "provisioners": [
+    {
     "type": "puppet-server",
     "options": "--test",
     "puppet_node": "packer{{timestamp}}.devcloud.athenahealth.com",
     "puppet_server": "puppet10vip.athenahealth.com",
+    "ignore_exit_codes": true,
     "facter": {
       "athena_server_role": "devcloud"
     }
-  },
-  {
-    "type": "shell",
-    "scripts": [
-      "scripts/cloud-init-conf.sh",
-      "scripts/cleanup.sh"
-    ],
-    "execute_command": "sudo -E {{ .Vars }} sh '{{.Path}}'",
-    "environment_vars": [
-      "RSYNC=true",
-      "ROLE=devcloud"
-    ]
-  }]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo yum remove -y perforce-*",
+        "sudo yum install -y -x perforce-* p4"
+      ]
+    },
+    {
+      "type": "puppet-server",
+      "options": "--test",
+      "puppet_node": "packer{{timestamp}}.devcloud.athenahealth.com",
+      "puppet_server": "puppet10vip.athenahealth.com",
+      "ignore_exit_codes": true,
+      "facter": {
+        "athena_server_role": "devcloud"
+      }
+    },
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/cloud-init-conf.sh",
+        "scripts/cleanup.sh"
+      ],
+      "execute_command": "sudo -E {{ .Vars }} sh '{{.Path}}'",
+      "environment_vars": [
+        "RSYNC=true",
+        "ROLE=devcloud"
+      ]
+    }
+  ]
 }

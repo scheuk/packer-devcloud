@@ -2,11 +2,11 @@
   "builders": [{
     "type": "openstack",
     "ssh_username": "cloud-user",
-    "image_name": "devcloud-packer-{{timestamp}}",
+    "image_name": "devcloud-sudo-packer-{{timestamp}}",
     "source_image_name": "OracleLinux-6.7-athena-20160318",
     "flavor": "m1.small",
     "use_floating_ip": true,
-    "floating_ip": "172.28.120.103",
+    "floating_ip": "172.28.120.116",
     "floating_ip_pool": "athena_internal_net",
     "networks": [
       "63fe7754-7850-4645-b3ed-08c5027df91a"
@@ -59,7 +59,7 @@
       "execute_command": "sudo -E {{ .Vars }} sh '{{.Path}}'",
       "environment_vars": [
         "RSYNC=true",
-        "ROLE=devcloud"
+        "ROLE=devcloud-sudo"
       ]
     }
   ]
